@@ -8,10 +8,13 @@ import java.util.Date;
 @Setter
 @Builder(toBuilder = true)
 public class Parametros {
-    private Date reporte ;
+    private Boolean order;
+    private  Integer page;
+    private Integer size;
     private String idEmpleado;
-    private  Date periodo;
     private Boolean asume;
-    private Date cierre;
-    private Double total;
+    private Date fecha;
+    private Double montoMinimo;
+    private Double montoMaximo;
+    private String ciudad;
 }

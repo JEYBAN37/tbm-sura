@@ -26,12 +26,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
     testImplementation 'org.mockito:mockito-inline'
-    testImplementation 'com.h2database:h2:2.1.214'
+
     /*VAR_build_gradle_test_dependencies_app_service*/
 
-//    implementation project(":domain-usecase")
+    implementation project(":domain-usecase")
     implementation project(":domain-model")
-//    implementation project(":driven-adapters-jpa-repository")
+    implementation project(":driven-adapters-r2dbc-repository")
 //    implementation project(":entry-points-reactive-web")
 //    implementation project(":helpers-observability-helper")
 //    implementation project(":helpers-logger-config-commons")
