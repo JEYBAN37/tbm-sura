@@ -1,0 +1,5 @@
+rootProject.name = 'tbm'
+include 'applications'
+include 'applications:app-service'
+findProject(':applications:app-service')?.name = 'app-service'
+
