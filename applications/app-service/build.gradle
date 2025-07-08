@@ -28,7 +28,7 @@ dependencies {
     /*VAR_build_gradle_test_dependencies_app_service*/
 
 //    implementation project(":domain-usecase")
-//    implementation project(":domain-model")
+    implementation project(":domain-model")
 //    implementation project(":driven-adapters-jpa-repository")
 //    implementation project(":entry-points-reactive-web")
 //    implementation project(":helpers-observability-helper")
