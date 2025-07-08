@@ -20,6 +20,8 @@ tasks.named('check') {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'  // 👈 ESENCIAL
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
@@ -39,11 +41,11 @@ dependencies {
 
 task copyDependencies(type: Copy) {
     from configurations.runtimeClasspath
-    into "$buildDir/libs"
+    into "$buildDir/dependencies"
 }
 
 
-test {
+    test {
     finalizedBy copyDependencies
 }
 
