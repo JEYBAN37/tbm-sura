@@ -1,8 +1,10 @@
 # tbm-sura
 # 📦 Proyecto TBM - Microservicio de Reportes
 
+![image](https://github.com/user-attachments/assets/12907f47-691b-4676-997b-a6a1199ce33d)
+
 Este proyecto es un microservicio **Spring Boot WebFlux** modularizado para gestión de gastos por viaje y reportes mensuales.  
-Incluye seguridad JWT, base de datos PostgreSQL y panel de documentación con **Swagger UI**.
+Incluye seguridad JWT, base de datos PostgreSQL y documentación.
 
 ---
 
