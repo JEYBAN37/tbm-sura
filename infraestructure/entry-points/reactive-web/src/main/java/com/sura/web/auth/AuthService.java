@@ -1,7 +1,8 @@
 package com.sura.web.auth;
 
-import com.sura.tbm.JwtLogin;
-import com.sura.tbm.TokenDto;
+
+import com.sura.jwt.JwtLogin;
+import com.sura.jwt.TokenDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

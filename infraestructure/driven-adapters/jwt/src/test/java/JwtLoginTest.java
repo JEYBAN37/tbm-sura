@@ -1,7 +1,7 @@
+import com.sura.jwt.JwtLogin;
+import com.sura.jwt.JwtUtil;
+import com.sura.jwt.TokenDto;
 import com.sura.model.common.ex.BusinessException; // Ajusta el paquete
-import com.sura.tbm.JwtLogin;
-import com.sura.tbm.JwtUtil;
-import com.sura.tbm.TokenDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

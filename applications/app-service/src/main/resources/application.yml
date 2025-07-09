@@ -25,8 +25,9 @@ app-security:
   enable: true
   auth_enable: true
   publicResources:
-    - /api-docs/**
+    - /v3/api-docs/**
     - /swagger-ui.html
+    - /swagger-ui/**
     - /documentation/**
     - /v1/auth/**
   cors:

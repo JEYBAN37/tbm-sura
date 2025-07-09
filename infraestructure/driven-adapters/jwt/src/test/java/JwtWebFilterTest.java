@@ -1,7 +1,9 @@
 
 
-import com.sura.tbm.JwtUtil;
-import com.sura.tbm.JwtWebFilter;
+import com.sura.jwt.JwtUtil;
+import com.sura.jwt.JwtWebFilter;
+
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

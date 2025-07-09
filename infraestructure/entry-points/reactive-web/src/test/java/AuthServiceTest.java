@@ -1,6 +1,7 @@
 
-import com.sura.tbm.JwtLogin;
-import com.sura.tbm.TokenDto;
+
+import com.sura.jwt.JwtLogin;
+import com.sura.jwt.TokenDto;
 import com.sura.web.auth.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

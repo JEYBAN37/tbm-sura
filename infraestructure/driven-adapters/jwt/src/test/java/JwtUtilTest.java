@@ -1,5 +1,5 @@
 
-import com.sura.tbm.JwtUtil;
+import com.sura.jwt.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
