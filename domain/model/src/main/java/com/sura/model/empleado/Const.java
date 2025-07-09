@@ -29,7 +29,7 @@ public class Const {
               'totalBase', gm.dstotal_base,
               'iva', gm.dsiva,
               'totalConIva', gm.dstotal_con_iva,
-              'responsable', CASE WHEN gm.cdasume THEN 'Empleado' ELSE 'Sura' END,
+              'responsable', CASE WHEN gm.cdasume THEN 'Sura' ELSE 'Empleado' END,
               'gastos', COALESCE(gastos_por_mes.gastos, '[]'::json)
             )
           ) FILTER (WHERE gm.feperiodo_mes IS NOT NULL), '[]'::json)
