@@ -32,19 +32,5 @@ buildFiles.each { File buildFile ->
         project.buildFileName = buildFile.name
     }
 }
-include 'domain:usecase'
-findProject(':domain:usecase')?.name = 'usecase'
-include 'domain:usecase'
-findProject(':domain:usecase')?.name = 'usecase'
-include 'infraestructure'
-include 'infraestructure:driven-adapters'
-findProject(':infraestructure:driven-adapters')?.name = 'driven-adapters'
-include 'infraestructure:entry-points'
-findProject(':infraestructure:entry-points')?.name = 'entry-points'
-include 'infraestructure:helpers'
-findProject(':infraestructure:helpers')?.name = 'helpers'
-include 'infraestructure:driven-adapters:untitled'
-findProject(':infraestructure:driven-adapters:untitled')?.name = 'untitled'
-include 'infraestructure:driven-adapters:jpa-repository'
-findProject(':infraestructure:driven-adapters:jpa-repository')?.name = 'jpa-repository'
+
 
