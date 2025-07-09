@@ -9,8 +9,7 @@ public class BusinessException extends ApplicationException {
     private static final long serialVersionUID = 1L;
 
     public enum Type {
-        ERROR_OBTENIENDO_METADATA_DOCUMENTOS(new Error(CodigosErrorNegocio.NEGOCIO_1, TipoError.NEGOCIO, "Se ha presentado un error obteniendo los metadatos de los documentos", "No se ha podido realizar la operaci\u00F3n solicitada"));
-
+        ERROR_CREDEENCIALES_INCORRECTAS(new Error(CodigosErrorNegocio.NEGOCIO_1, TipoError.NEGOCIO, "No se ha podido realizar la operaci\u00F3n solicitada", "Usuario No Autorizado Credenciales Incorrectas"));
         private final Error error;
 
         public BusinessException build() {

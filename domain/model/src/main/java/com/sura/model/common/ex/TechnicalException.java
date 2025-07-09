@@ -15,6 +15,7 @@ public class TechnicalException extends ApplicationException {
         ERROR_EXCEPCION_RESPUESTA_ESTADO(new Error(CodigosErrorTecnico.TECNICO_2, TipoError.TECNICO, "Error en ResponseStatusException", "Se produjo un error en ResponseStatusException")),
         ERROR_EXCEPCION_GENERICA(new Error(CodigosErrorTecnico.TECNICO_3, TipoError.TECNICO, "Error genérico", "Se produjo un error genérico"));
 
+
         private final Error error;
 
         public TechnicalException build() {

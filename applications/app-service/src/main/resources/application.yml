@@ -12,3 +12,28 @@ logging:
     org.springframework.r2dbc: DEBUG
     io.r2dbc: DEBUG
 
+constant:
+  vigenciaTokenMinutos: 10000000
+  keysecret: MyUltraSecureSecretKeyThatIsLongEnough123
+
+app-security:
+  service: apiresttbm
+  sp_entity_id: apiresttbm
+  enable: true
+  auth_enable: true
+  publicResources:
+    - /api-docs/**
+    - /swagger-ui.html
+    - /documentation/**
+    - /v1/auth/**
+  cors:
+    allowCredentials: true
+    allowedOrigins:
+      - localhost
+    allowedMethods:
+      - POST
+      - GET
+      - PUT
+      - DELETE
+
+

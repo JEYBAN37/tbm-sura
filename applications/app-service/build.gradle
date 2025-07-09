@@ -22,6 +22,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'  // 👈 ESENCIAL
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
@@ -33,6 +34,7 @@ dependencies {
     implementation project(":domain-model")
     implementation project(":driven-adapters-r2dbc-repository")
     implementation project(":entry-points-reactive-web")
+    implementation project(":driven-adapters-jwt-security")
 //    implementation project(":helpers-observability-helper")
 //    implementation project(":helpers-logger-config-commons")
 //    implementation project(":driven-adapters-web-repository")
