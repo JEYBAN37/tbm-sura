@@ -6,6 +6,8 @@
 Este proyecto es un microservicio **Spring Boot WebFlux** modularizado para gestión de gastos por viaje y reportes mensuales.  
 Incluye seguridad JWT, base de datos PostgreSQL y documentación.
 
+![image](https://github.com/user-attachments/assets/9b5fd049-923e-4f53-9673-5c64fb436326)
+
 ---
 
 ## 🚀 Despliegue local con Docker Compose
