@@ -1,4 +1,4 @@
-package com.sura.domain.gastoxmes;
+package com.sura.model.gastoxmes;
 
 import lombok.Builder;
 import lombok.Getter;

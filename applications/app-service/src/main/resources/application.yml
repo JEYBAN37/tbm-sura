@@ -3,10 +3,12 @@ spring:
     name: apirest-tbm
 
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/dbtbm
+    url: r2dbc:postgresql://localhost:5433/dbtbm
     username: admin
     password: admin
 
 logging:
   level:
     org.springframework.r2dbc: DEBUG
+    io.r2dbc: DEBUG
+
