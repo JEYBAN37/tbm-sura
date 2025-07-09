@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sura.model.common.ex.TechnicalException;
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
+import com.sura.model.gastoxmes.GastoMes;
 import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxviaje.dto.GastoTotalDto;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
 import io.r2dbc.spi.Row;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.r2dbc.core.DatabaseClient.GenericExecuteSpec;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import java.time.LocalDate;
 import static com.sura.model.empleado.Const.*;
 
 @Repository
@@ -39,6 +43,7 @@ public class GastoxViajeR2dbcAdapter implements GastoxViajeRepository {
         return spec.map((row, meta) -> mapRowToDto(row)).all();
     }
 
+
     private GastoEmpleadoDto mapRowToDto(Row row) {
         String json = row.get("resultado", String.class);
         try {
@@ -59,5 +64,35 @@ public class GastoxViajeR2dbcAdapter implements GastoxViajeRepository {
         sql.append(SQL_SELECT_JSON);
         return sql;
     }
+
+
+    @Override
+    public Flux<GastoTotalDto> TotalGastosxMes(LocalDate periodo) {
+
+        return entityTemplate.getDatabaseClient()
+                .sql(SQL_SELECT_GASTOS_MENSUALES)
+                .bind("anio", periodo.getYear())
+                .bind("mes", periodo.getMonth().getValue())
+                .map((row, meta) -> GastoTotalDto
+                        .builder()
+                        .dni(row.get("dniempleado", String.class))
+                        .fecha( row.get("fecha_reporte",LocalDate .class))
+                        .total( row.get("total_gasto", Double.class))
+                        .build())
+                .all();
+    }
+
+    @Override
+    public Mono<Void> upsertGastoMes(GastoMes gastoMes) {
+            return entityTemplate.getDatabaseClient().sql(SQL_INSERT_GASTOS_MES)
+                    .bind("dni", gastoMes.getDni())
+                    .bind("monto", gastoMes.getMonto())
+                    .bind("iva", gastoMes.getIva())
+                    .bind("moto_total", gastoMes.getMotoTotal())
+                    .bind("fecha_cierre", gastoMes.getFechaCierre())
+                    .bind("fecha", gastoMes.getFecha())
+                    .bind("asume",gastoMes.getAsume() )
+                    .then();
+        }
 
 }
