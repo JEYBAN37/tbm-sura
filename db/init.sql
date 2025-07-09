@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS sqmtbm.ttbm_empleados (
 CREATE TABLE IF NOT EXISTS sqmtbm.ttbm_gastosxmes (
     cdreporte serial PRIMARY KEY,
     dniempleado character varying(18) NOT NULL,
-    feperiodo_mes date NOT NULL,
+    dsfeperiodo_mes date NOT NULL,
     dstotal_base numeric(12,2) NOT NULL,
     dsiva numeric(12,2) NOT NULL,
     dstotal_con_iva numeric(12,2) NOT NULL,
