@@ -1,4 +1,4 @@
-package com.sura.tbm;
+package com.sura.jwt;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
