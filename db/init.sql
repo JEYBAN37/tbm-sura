@@ -13,13 +13,17 @@ CREATE TABLE IF NOT EXISTS sqmtbm.ttbm_empleados (
 CREATE TABLE IF NOT EXISTS sqmtbm.ttbm_gastosxmes (
     cdreporte serial PRIMARY KEY,
     dniempleado character varying(18) NOT NULL,
-    dsfeperiodo_mes date NOT NULL,
+    feperiodo_mes date NOT NULL,
     dstotal_base numeric(12,2) NOT NULL,
     dsiva numeric(12,2) NOT NULL,
     dstotal_con_iva numeric(12,2) NOT NULL,
     cdasume boolean NOT NULL,
     fecierre timestamp without time zone DEFAULT now()
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_gastosxmes_empleado_periodo
+ON sqmtbm.ttbm_gastosxmes (dniempleado, feperiodo_mes);
+
 
 -- Crear tabla gastos por viaje
 CREATE TABLE IF NOT EXISTS sqmtbm.ttbm_gastosxviaje (
