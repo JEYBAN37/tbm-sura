@@ -5,7 +5,6 @@ import com.sura.model.gastoxmes.Parametros;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class ConsultarGastosxViajeUseCase {
