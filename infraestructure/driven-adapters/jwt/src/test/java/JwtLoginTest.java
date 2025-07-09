@@ -1,6 +1,7 @@
 import com.sura.model.common.ex.BusinessException; // Ajusta el paquete
 import com.sura.tbm.JwtLogin;
 import com.sura.tbm.JwtUtil;
+import com.sura.tbm.TokenDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,11 +38,11 @@ class JwtLoginTest {
         when(jwtUtil.generateToken(anyString())).thenReturn(DUMMY_TOKEN);
 
         // WHEN: Llama al método que estamos probando con credenciales correctas
-        Mono<String> resultMono = jwtLogin.allowedPass(CORRECT_USR, CORRECT_PASSWORD);
+        Mono<TokenDto> resultMono = jwtLogin.allowedPass(CORRECT_USR, CORRECT_PASSWORD);
 
-        // THEN: Verifica el resultado utilizando StepVerifier para el Mono
+        // THEN: Verifica el resultado utilizando StepVeifier para el Mono
         StepVerifier.create(resultMono)
-                .expectNext(DUMMY_TOKEN) // Espera que el Mono emita el token esperado
+                .expectNext( TokenDto.builder().Token(DUMMY_TOKEN).build()) // Espera que el Mono emita el token esperado
                 .verifyComplete(); // Verifica que el Mono se haya completado exitosamente
 
         // Verifica que el método generateToken de jwtUtil fue llamado exactamente una vez
@@ -57,7 +58,7 @@ class JwtLoginTest {
         String correctPassword = CORRECT_PASSWORD;
 
         // WHEN: Llama al método que estamos probando con un usuario incorrecto
-        Mono<String> resultMono = jwtLogin.allowedPass(incorrectUser, correctPassword);
+        Mono<TokenDto> resultMono = jwtLogin.allowedPass(incorrectUser, correctPassword);
 
         // THEN: Verifica que el Mono emita un error de tipo BusinessException
         StepVerifier.create(resultMono)
@@ -77,7 +78,7 @@ class JwtLoginTest {
         String incorrectPassword = "otra_password";
 
         // WHEN: Llama al método que estamos probando con una contraseña incorrecta
-        Mono<String> resultMono = jwtLogin.allowedPass(correctUser, incorrectPassword);
+        Mono<TokenDto> resultMono = jwtLogin.allowedPass(correctUser, incorrectPassword);
 
         // THEN: Verifica que el Mono emita un error de tipo BusinessException
         StepVerifier.create(resultMono)
@@ -97,7 +98,7 @@ class JwtLoginTest {
         String incorrectPassword = "wrong_password";
 
         // WHEN: Llama al método que estamos probando con ambos incorrectos
-        Mono<String> resultMono = jwtLogin.allowedPass(incorrectUser, incorrectPassword);
+        Mono<TokenDto> resultMono = jwtLogin.allowedPass(incorrectUser, incorrectPassword);
 
         // THEN: Verifica que el Mono emita un error de tipo BusinessException
         StepVerifier.create(resultMono)

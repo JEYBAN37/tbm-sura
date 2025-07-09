@@ -1,5 +1,6 @@
 
 import com.sura.tbm.JwtLogin;
+import com.sura.tbm.TokenDto;
 import com.sura.web.auth.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,14 +38,14 @@ class AuthServiceTest {
     @DisplayName("Debería retornar un token cuando las credenciales son válidas")
     void login_shouldReturnToken_whenCredentialsAreValid() {
         // GIVEN: jwtLogin.allowedPass() retorna un Mono con el token de prueba
-        when(jwtLogin.allowedPass(TEST_USERNAME, TEST_PASSWORD)).thenReturn(Mono.just(TEST_TOKEN));
+        when(jwtLogin.allowedPass(TEST_USERNAME, TEST_PASSWORD)).thenReturn(Mono.just(TokenDto.builder().Token(TEST_TOKEN).build()));
 
         // WHEN: Se llama al método login del servicio
-        Mono<String> result = authService.login(TEST_USERNAME, TEST_PASSWORD);
+        Mono<TokenDto> result = authService.login(TEST_USERNAME, TEST_PASSWORD);
 
         // THEN: Verificar que el Mono emite el token esperado
         StepVerifier.create(result)
-                .expectNext(TEST_TOKEN)
+                .expectNext(TokenDto.builder().Token(TEST_TOKEN).build())
                 .verifyComplete();
 
         // Verificar que jwtLogin.allowedPass() fue llamado exactamente una vez con las credenciales correctas
@@ -58,7 +59,7 @@ class AuthServiceTest {
         when(jwtLogin.allowedPass(TEST_USERNAME, TEST_PASSWORD)).thenReturn(Mono.empty());
 
         // WHEN: Se llama al método login del servicio
-        Mono<String> result = authService.login(TEST_USERNAME, TEST_PASSWORD);
+        Mono<TokenDto> result = authService.login(TEST_USERNAME, TEST_PASSWORD);
 
         // THEN: Verificar que el Mono se completa sin emitir ningún valor
         StepVerifier.create(result)
@@ -77,7 +78,7 @@ class AuthServiceTest {
         when(jwtLogin.allowedPass(TEST_USERNAME, TEST_PASSWORD)).thenReturn(Mono.error(expectedError));
 
         // WHEN: Se llama al método login del servicio
-        Mono<String> result = authService.login(TEST_USERNAME, TEST_PASSWORD);
+        Mono<TokenDto> result = authService.login(TEST_USERNAME, TEST_PASSWORD);
 
         // THEN: Verificar que el Mono emite el error esperado
         StepVerifier.create(result)
