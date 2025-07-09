@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class GastoEmpleadoDto {
     private String dniEmpleado;
     private String nombreEmpleado;

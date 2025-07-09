@@ -18,7 +18,7 @@ public class GastoxViajeService {
     private final ConsultarGastosxViajeUseCase consultarGastosxViajeUseCase;
 
     @Operation(summary = "SERVICIO PARA CONSULTAR EL LISTADO DE GASTO POR EMPLEADOS",
-            description = "Servicio que retorna el listado de empleados en el LDAP de P8",
+            description = "Servicio que retorna el listado de empleados",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(mediaType = "application/json")),
                     @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(hidden = true))),

@@ -5,6 +5,7 @@ import lombok.*;
 @Setter
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Parametros {
     private  Integer page;
     private Integer size;

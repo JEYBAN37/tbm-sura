@@ -7,7 +7,7 @@ import com.sura.model.empleado.dto.GastoEmpleadoDto;
 import com.sura.model.gastoxmes.Parametros;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
 import io.r2dbc.spi.Row;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.r2dbc.core.DatabaseClient.GenericExecuteSpec;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Flux;
 import static com.sura.model.empleado.Const.*;
 
 @Repository
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class GastoxViajeR2dbcAdapter implements GastoxViajeRepository {
 
     private final R2dbcEntityTemplate entityTemplate;
