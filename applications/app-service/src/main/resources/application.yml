@@ -2,8 +2,11 @@ spring:
   application:
     name: apirest-tbm
 
+  server:
+    address: 0.0.0.0
+
   r2dbc:
-    url: r2dbc:postgresql://localhost:5433/dbtbm
+    url: r2dbc:postgresql://db:5432/dbtbm
     username: admin
     password: admin
 

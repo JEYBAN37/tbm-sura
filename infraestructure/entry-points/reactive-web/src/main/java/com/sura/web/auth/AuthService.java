@@ -1,6 +1,7 @@
 package com.sura.web.auth;
 
 import com.sura.tbm.JwtLogin;
+import com.sura.tbm.TokenDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,7 +28,7 @@ public class AuthService {
             }
     )
     @PostMapping("/login")
-    public Mono<String> login(@RequestParam String username, @RequestParam String password) {
+    public Mono<TokenDto> login(@RequestParam String username, @RequestParam String password) {
         return jwtLogin.allowedPass(username,password);
     }
 }
