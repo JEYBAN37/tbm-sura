@@ -1,5 +1,7 @@
 package com.sura.model.empleado;
 
+import java.util.Map;
+
 public class Const {
     public static final String SQL_EMPLEADOS_PAGINADOS = """
     WITH empleados_paginados AS (
@@ -26,8 +28,8 @@ public class Const {
               'mes', EXTRACT(MONTH FROM gm.feperiodo_mes)::INT,
               'totalBase', gm.dstotal_base,
               'iva', gm.dsiva,
-              'totalConIva', gm.total_con_iva,
-              'responsable', CASE WHEN gm.cdasume THEN 'Sura' ELSE 'Empleado' END,
+              'totalConIva', gm.dstotal_con_iva,
+              'responsable', CASE WHEN gm.cdasume THEN 'Empleado' ELSE 'Sura' END,
               'gastos', COALESCE(gastos_por_mes.gastos, '[]'::json)
             )
           ) FILTER (WHERE gm.feperiodo_mes IS NOT NULL), '[]'::json)
@@ -51,4 +53,47 @@ public class Const {
     GROUP BY ep.dniempleado, ep.dsnombre_empleado
     ORDER BY ep.dsnombre_empleado
 """;
+
+    public static  final   String SQL_SELECT_GASTOS_MENSUALES = """
+             SELECT 
+          gm.dniempleado,
+          SUM(gm.dsvalor) AS total_gasto,
+          DATE_TRUNC('month', gm.fegasto) AS fecha_reporte
+        FROM sqmtbm.ttbm_gastosxviaje gm
+        WHERE EXTRACT(YEAR FROM gm.fegasto) = :anio
+          AND EXTRACT(MONTH FROM gm.fegasto) = :mes
+        GROUP BY gm.dniempleado, DATE_TRUNC('month', gm.fegasto)
+           """;
+
+    public static final String SQL_INSERT_GASTOS_MES = """
+            INSERT INTO sqmtbm.ttbm_gastosxmes\s
+            (dniempleado, dstotal_base, dsiva, dstotal_con_iva, fecierre, feperiodo_mes, cdasume)
+            VALUES (:dni, :monto, :iva, :moto_total, :fecha_cierre, :fecha, :asume)
+            ON CONFLICT (dniempleado, feperiodo_mes)
+            DO UPDATE SET
+             dstotal_base = EXCLUDED.dstotal_base,
+             dsiva = EXCLUDED.dsiva,
+             dstotal_con_iva = EXCLUDED.dstotal_con_iva,
+             cdasume = EXCLUDED.cdasume
+            
+          """;
+
+
+    public static  final  Map<String, Integer> MESES = Map.ofEntries(
+            Map.entry("enero", 1),
+            Map.entry("febrero", 2),
+            Map.entry("marzo", 3),
+            Map.entry("abril", 4),
+            Map.entry("mayo", 5),
+            Map.entry("junio", 6),
+            Map.entry("julio", 7),
+            Map.entry("agosto", 8),
+            Map.entry("septiembre", 9),
+            Map.entry("octubre", 10),
+            Map.entry("noviembre", 11),
+            Map.entry("diciembre", 12)
+    );
+
+
+    public static final Double MILLON_COP = Double.valueOf("1000000");
 }
