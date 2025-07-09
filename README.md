@@ -59,7 +59,7 @@ Método: POST
 Path: v1/generarreporte/
 
 Descripción: Calcula gastos por empleado en un periodo, genera totales con IVA y guarda/actualiza registros.
-
+se debe elegir un año y un mes del cual se quiere generar el reporte [prueba de abril a julio]
 Body JSON ejemplo:
 
 json
@@ -72,14 +72,15 @@ Respuesta exitosa:
 json
 
 [
-  {
-    "dni": "123456",
-    "monto": 1000000.00,
-    "iva": 190000.00,
-    "montoTotal": 1190000.00,
-    "fecha": "2025-06-01",
-    "asume": true
-  }
+{
+        "dni": "10000008",
+        "fecha": "2025-04-01",
+        "monto": 1777883.12,
+        "iva": 337797.79280000005,
+        "motoTotal": 2115680.9128,
+        "asume": "Sura",
+        "fechaCierre": "2025-07-09"
+    },
 ]
 2️⃣ Listar Gastos por Viaje
 Método: GET
@@ -88,26 +89,38 @@ Path: /v1/gastosxempleado/
 
 Descripción: Devuelve un listado de todos los gastos registrados por empleado.
 
+{
+  "page": "1",
+  "size": "06"
+}
+o especificar al empleado
+{
+  "idEmpleado": "1",
+}
 Respuesta ejemplo:
 
 json
 
-[
-  {
-    "dniempleado": "123456",
-    "fegasto": "2025-06-12T15:30:00",
-    "dsvalor": 50000.00,
-    "dsmotivo": "Capacitación",
-    "dsciudad": "Bogotá"
-  },
-  {
-    "dniempleado": "789012",
-    "fegasto": "2025-06-15T10:00:00",
-    "dsvalor": 75000.00,
-    "dsmotivo": "Reunión",
-    "dsciudad": "Medellín"
-  }
-]
+"dniEmpleado": "10000013",
+        "nombreEmpleado": "Alexis Velásquez",
+        "meses": [
+            {
+                "anio": 2025,
+                "mes": 4,
+                "totalBase": 1650138.3,
+                "iva": 313526.28,
+                "totalConIva": 1963664.58,
+                "responsable": "Empleado",
+                "gastos": [
+                    {
+                        "fecha": "2025-04-08T00:00:00",
+                        "valor": 1650138.3,
+                        "motivo": "Almuerzo con proveedor",
+                        "ciudad": "Barranquilla"
+                    }
+                ]
+            }
+        ]
 🧩 Pruebas en Postman
 ✅ En la carpeta /docs encontrarás un archivo tbm-collection.postman.json con todos los endpoints listos para probar en Postman.
 
