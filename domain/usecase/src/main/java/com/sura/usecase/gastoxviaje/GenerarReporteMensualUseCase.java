@@ -3,13 +3,12 @@ package com.sura.usecase.gastoxviaje;
 import com.sura.model.common.ex.BusinessException;
 import com.sura.model.gastoxmes.GastoMes;
 import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.dto.GastoMesDto;
 import com.sura.model.gastoxviaje.dto.GastoTotalDto;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import java.time.LocalDate;
-
-
 import static com.sura.model.empleado.Const.MESES;
 import static com.sura.model.empleado.Const.MILLON_COP;
 
@@ -17,13 +16,10 @@ import static com.sura.model.empleado.Const.MILLON_COP;
 @AllArgsConstructor
 public class GenerarReporteMensualUseCase {
     private final GastoxViajeRepository gastoxViajeRepository;
-    public Flux<GastoMes> generarReporteMensual(Parametros parametros) {
+    public Flux<GastoMesDto> generarReporteMensual(Parametros parametros) {
         return gastoxViajeRepository.TotalGastosxMes(getPeriodo(parametros))
                 .map(this::calcularTotalMasIva)
-                .flatMap(gastoMes ->
-                        gastoxViajeRepository.upsertGastoMes(gastoMes)
-                                .thenReturn(gastoMes)
-                );
+                .flatMap(gastoxViajeRepository::upsertGastoMes, 10);
     }
 
     private GastoMes calcularTotalMasIva(GastoTotalDto dto) {

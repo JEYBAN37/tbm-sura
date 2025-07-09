@@ -1,22 +1,20 @@
-package com.sura.model.gastoxmes;
-
+package com.sura.model.gastoxmes.dto;
+import com.sura.model.gastoxmes.GastoMes;
 import lombok.*;
 
 import java.time.LocalDate;
 
-
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class GastoMes {
+public class GastoMesDto {
     private String dni;
     private LocalDate fecha;
     private Double monto;
     private Double iva;
     private Double motoTotal;
-    private Boolean asume;
+    private String asume;
     private LocalDate fechaCierre;
 }

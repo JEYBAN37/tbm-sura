@@ -6,8 +6,10 @@ import com.sura.model.common.ex.TechnicalException;
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
 import com.sura.model.gastoxmes.GastoMes;
 import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.dto.GastoMesDto;
 import com.sura.model.gastoxviaje.dto.GastoTotalDto;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
+import com.sura.r2dbc.mapper.MapperGastoxViajes;
 import io.r2dbc.spi.Row;
 import lombok.AllArgsConstructor;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -73,26 +75,23 @@ public class GastoxViajeR2dbcAdapter implements GastoxViajeRepository {
                 .sql(SQL_SELECT_GASTOS_MENSUALES)
                 .bind("anio", periodo.getYear())
                 .bind("mes", periodo.getMonth().getValue())
-                .map((row, meta) -> GastoTotalDto
-                        .builder()
-                        .dni(row.get("dniempleado", String.class))
-                        .fecha( row.get("fecha_reporte",LocalDate .class))
-                        .total( row.get("total_gasto", Double.class))
-                        .build())
+                .map((row, meta) -> MapperGastoxViajes.mapRowToDto(row))
                 .all();
     }
 
     @Override
-    public Mono<Void> upsertGastoMes(GastoMes gastoMes) {
-            return entityTemplate.getDatabaseClient().sql(SQL_INSERT_GASTOS_MES)
-                    .bind("dni", gastoMes.getDni())
-                    .bind("monto", gastoMes.getMonto())
-                    .bind("iva", gastoMes.getIva())
-                    .bind("moto_total", gastoMes.getMotoTotal())
-                    .bind("fecha_cierre", gastoMes.getFechaCierre())
-                    .bind("fecha", gastoMes.getFecha())
-                    .bind("asume",gastoMes.getAsume() )
-                    .then();
-        }
+    public Mono<GastoMesDto> upsertGastoMes(GastoMes gastoMes) {
+        return entityTemplate.getDatabaseClient().sql(SQL_INSERT_GASTOS_MES)
+                .bind("dni", gastoMes.getDni())
+                .bind("monto", gastoMes.getMonto())
+                .bind("iva", gastoMes.getIva())
+                .bind("moto_total", gastoMes.getMotoTotal())
+                .bind("fecha_cierre", gastoMes.getFechaCierre())
+                .bind("fecha", gastoMes.getFecha())
+                .bind("asume", gastoMes.getAsume())
+                .fetch()
+                .rowsUpdated()
+                .map(rows -> MapperGastoxViajes.mapGastoMesToDto(gastoMes));
+    }
 
 }
