@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copia tu archivo jar compilado
-COPY build/libs/app-service-0.0.1.jar app.jar
+COPY build/libs/applications-app-service-0.0.1.jar app.jar
 
 # Expón el puerto por donde Spring Boot sirve
 EXPOSE 8080
