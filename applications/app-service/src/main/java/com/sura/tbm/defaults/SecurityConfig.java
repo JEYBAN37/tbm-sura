@@ -30,7 +30,6 @@ public class SecurityConfig {
 
 
         http.authorizeExchange(exchanges -> exchanges
-                .pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .pathMatchers(properties.getPublicResources().toArray(new String[0])).permitAll()
                 .anyExchange().authenticated()
         );

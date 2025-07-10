@@ -1,7 +1,7 @@
 package com.sura.web.gastoxviaje;
 
-import com.sura.model.gastoxmes.Parametros;
 import com.sura.model.gastoxmes.dto.GastoMesDto;
+import com.sura.model.gastoxviaje.ParametrosReporte;
 import com.sura.usecase.gastoxviaje.GenerarReporteMensualUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,7 +32,7 @@ public class GenerarReporteService {
             }
     )
     @PostMapping("/")
-    public Flux<GastoMesDto> consultarGastos (@RequestBody Parametros parametros) {
-        return generarReporteMensualUseCase.generarReporteMensual(parametros);
+    public Flux<GastoMesDto> consultarGastos (@RequestBody ParametrosReporte parametrosReporte) {
+        return generarReporteMensualUseCase.generarReporteMensual(parametrosReporte);
     }
 }

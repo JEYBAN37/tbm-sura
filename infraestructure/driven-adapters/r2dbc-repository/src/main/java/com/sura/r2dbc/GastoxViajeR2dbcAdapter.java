@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sura.model.common.ex.TechnicalException;
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
 import com.sura.model.gastoxmes.GastoMes;
-import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.ParametrosListado;
 import com.sura.model.gastoxmes.dto.GastoMesDto;
 import com.sura.model.gastoxviaje.dto.GastoTotalDto;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
@@ -28,15 +28,15 @@ public class GastoxViajeR2dbcAdapter implements GastoxViajeRepository {
     private final ObjectMapper objectMapper;
 
     @Override
-    public Flux<GastoEmpleadoDto> listarGastosxPersona(Parametros parametros) {
-        StringBuilder sql = getSql(parametros);
+    public Flux<GastoEmpleadoDto> listarGastosxPersona(ParametrosListado parametrosListado) {
+        StringBuilder sql = getSql(parametrosListado);
         GenericExecuteSpec spec = entityTemplate.getDatabaseClient().sql(sql.toString());
-        if (parametros.getIdEmpleado() != null && !parametros.getIdEmpleado().isBlank()) {
-            spec = spec.bind("dniempleado", parametros.getIdEmpleado());
+        if (parametrosListado.getIdEmpleado() != null && !parametrosListado.getIdEmpleado().isBlank()) {
+            spec = spec.bind("dniempleado", parametrosListado.getIdEmpleado());
         }
 
-        int page = parametros.getPage() != null ? parametros.getPage() : 0;
-        int size = parametros.getSize() != null ? parametros.getSize() : 10;
+        int page = parametrosListado.getPage() != null ? parametrosListado.getPage() : 0;
+        int size = parametrosListado.getSize() != null ? parametrosListado.getSize() : 10;
         int offset = page * size;
 
         spec = spec.bind("limit", size);
@@ -56,10 +56,10 @@ public class GastoxViajeR2dbcAdapter implements GastoxViajeRepository {
     }
 
 
-    private StringBuilder getSql(Parametros parametros) {
+    private StringBuilder getSql(ParametrosListado parametrosListado) {
         StringBuilder sql = new StringBuilder(SQL_EMPLEADOS_PAGINADOS);
 
-        if (parametros.getIdEmpleado() != null && !parametros.getIdEmpleado().isBlank()) {
+        if (parametrosListado.getIdEmpleado() != null && !parametrosListado.getIdEmpleado().isBlank()) {
             sql.append(" AND e.dniempleado = :dniempleado ");
         }
         sql.append(SQL_ORDER_LIMIT_OFFSET);

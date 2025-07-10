@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sura.model.common.ex.TechnicalException;
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
-import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.ParametrosListado;
 import com.sura.r2dbc.GastoxViajeR2dbcAdapter;
 import io.r2dbc.spi.Row;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,15 +60,15 @@ class GastosxViajeR2dbcAdapterTest {
     @Mock
     private RowsFetchSpec rowsFetchSpec;
 
-    private Parametros parametros;
+    private ParametrosListado parametrosListado;
     private GastoEmpleadoDto gastoEmpleadoDto;
 
     @BeforeEach
     void setUp() {
-        parametros = new Parametros();
-        parametros.setPage(0);
-        parametros.setSize(10);
-        parametros.setIdEmpleado(null);
+        parametrosListado = new ParametrosListado();
+        parametrosListado.setPage(0);
+        parametrosListado.setSize(10);
+        parametrosListado.setIdEmpleado(null);
 
         gastoEmpleadoDto = new GastoEmpleadoDto("DNI123", "Juan Perez", Collections.emptyList());
 
@@ -84,9 +84,9 @@ class GastosxViajeR2dbcAdapterTest {
     @DisplayName("Debe listar gastos por persona sin ID de empleado y con paginación por defecto")
     void listarGastosxPersona_noIdEmpleado_defaultPagination() throws JsonProcessingException {
         // GIVEN
-        parametros.setIdEmpleado(null);
-        parametros.setPage(null);
-        parametros.setSize(null);
+        parametrosListado.setIdEmpleado(null);
+        parametrosListado.setPage(null);
+        parametrosListado.setSize(null);
 
         String expectedSql = SQL_EMPLEADOS_PAGINADOS + SQL_ORDER_LIMIT_OFFSET + SQL_SELECT_JSON;
 
@@ -101,7 +101,7 @@ class GastosxViajeR2dbcAdapterTest {
         when(objectMapper.readValue(anyString(), eq(GastoEmpleadoDto.class))).thenReturn(gastoEmpleadoDto);
 
         // WHEN
-        Flux<GastoEmpleadoDto> result = gastoxViajeR2dbcAdapter.listarGastosxPersona(parametros);
+        Flux<GastoEmpleadoDto> result = gastoxViajeR2dbcAdapter.listarGastosxPersona(parametrosListado);
 
         // THEN
         StepVerifier.create(result)
@@ -126,9 +126,9 @@ class GastosxViajeR2dbcAdapterTest {
     @DisplayName("Debe listar gastos por persona con ID de empleado y paginación personalizada")
     void listarGastosxPersona_withIdEmpleado_customPagination() throws JsonProcessingException {
         // GIVEN
-        parametros.setIdEmpleado("EMP001");
-        parametros.setPage(2);
-        parametros.setSize(5);
+        parametrosListado.setIdEmpleado("EMP001");
+        parametrosListado.setPage(2);
+        parametrosListado.setSize(5);
 
         String expectedSql = SQL_EMPLEADOS_PAGINADOS + " AND e.dniempleado = :dniempleado " + SQL_ORDER_LIMIT_OFFSET + SQL_SELECT_JSON;
         int expectedOffset = 2 * 5;
@@ -145,7 +145,7 @@ class GastosxViajeR2dbcAdapterTest {
         when(objectMapper.readValue(anyString(), eq(GastoEmpleadoDto.class))).thenReturn(gastoEmpleadoDto);
 
         // WHEN
-        Flux<GastoEmpleadoDto> result = gastoxViajeR2dbcAdapter.listarGastosxPersona(parametros);
+        Flux<GastoEmpleadoDto> result = gastoxViajeR2dbcAdapter.listarGastosxPersona(parametrosListado);
 
         // THEN
         StepVerifier.create(result)
@@ -222,14 +222,14 @@ class GastosxViajeR2dbcAdapterTest {
     @DisplayName("getSql debe construir el SQL correcto sin ID de empleado")
     void getSql_noIdEmpleado_shouldBuildCorrectSql() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // GIVEN
-        parametros.setIdEmpleado(null);
+        parametrosListado.setIdEmpleado(null);
         String expectedSql = SQL_EMPLEADOS_PAGINADOS + SQL_ORDER_LIMIT_OFFSET + SQL_SELECT_JSON;
 
-        Method getSqlMethod = GastoxViajeR2dbcAdapter.class.getDeclaredMethod("getSql", Parametros.class);
+        Method getSqlMethod = GastoxViajeR2dbcAdapter.class.getDeclaredMethod("getSql", ParametrosListado.class);
         getSqlMethod.setAccessible(true);
 
         // WHEN
-        StringBuilder sqlBuilder = (StringBuilder) getSqlMethod.invoke(gastoxViajeR2dbcAdapter, parametros);
+        StringBuilder sqlBuilder = (StringBuilder) getSqlMethod.invoke(gastoxViajeR2dbcAdapter, parametrosListado);
 
         // THEN
         assertEquals(expectedSql, sqlBuilder.toString());
@@ -239,14 +239,14 @@ class GastosxViajeR2dbcAdapterTest {
     @DisplayName("getSql debe construir el SQL correcto con ID de empleado")
     void getSql_withIdEmpleado_shouldBuildCorrectSql() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // GIVEN
-        parametros.setIdEmpleado("EMP001");
+        parametrosListado.setIdEmpleado("EMP001");
         String expectedSql = SQL_EMPLEADOS_PAGINADOS + " AND e.dniempleado = :dniempleado " + SQL_ORDER_LIMIT_OFFSET + SQL_SELECT_JSON;
 
-        Method getSqlMethod = GastoxViajeR2dbcAdapter.class.getDeclaredMethod("getSql", Parametros.class);
+        Method getSqlMethod = GastoxViajeR2dbcAdapter.class.getDeclaredMethod("getSql", ParametrosListado.class);
         getSqlMethod.setAccessible(true);
 
         // WHEN
-        StringBuilder sqlBuilder = (StringBuilder) getSqlMethod.invoke(gastoxViajeR2dbcAdapter, parametros);
+        StringBuilder sqlBuilder = (StringBuilder) getSqlMethod.invoke(gastoxViajeR2dbcAdapter, parametrosListado);
 
         // THEN
         assertEquals(expectedSql, sqlBuilder.toString());
@@ -256,14 +256,14 @@ class GastosxViajeR2dbcAdapterTest {
     @DisplayName("getSql debe construir el SQL correcto con ID de empleado en blanco")
     void getSql_blankIdEmpleado_shouldBuildCorrectSql() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // GIVEN
-        parametros.setIdEmpleado("   ");
+        parametrosListado.setIdEmpleado("   ");
         String expectedSql = SQL_EMPLEADOS_PAGINADOS + SQL_ORDER_LIMIT_OFFSET + SQL_SELECT_JSON;
 
-        Method getSqlMethod = GastoxViajeR2dbcAdapter.class.getDeclaredMethod("getSql", Parametros.class);
+        Method getSqlMethod = GastoxViajeR2dbcAdapter.class.getDeclaredMethod("getSql", ParametrosListado.class);
         getSqlMethod.setAccessible(true);
 
         // WHEN
-        StringBuilder sqlBuilder = (StringBuilder) getSqlMethod.invoke(gastoxViajeR2dbcAdapter, parametros);
+        StringBuilder sqlBuilder = (StringBuilder) getSqlMethod.invoke(gastoxViajeR2dbcAdapter, parametrosListado);
 
         // THEN
         assertEquals(expectedSql, sqlBuilder.toString());

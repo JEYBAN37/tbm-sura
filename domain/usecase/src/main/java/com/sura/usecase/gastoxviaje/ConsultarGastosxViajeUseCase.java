@@ -1,7 +1,7 @@
 package com.sura.usecase.gastoxviaje;
 
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
-import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.ParametrosListado;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -10,8 +10,8 @@ import reactor.core.publisher.Flux;
 public class ConsultarGastosxViajeUseCase {
     private  final GastoxViajeRepository gastoxViajeRepository;
 
-    public Flux<GastoEmpleadoDto> consultarGastoxMes(Parametros parametros) {
-        return  gastoxViajeRepository.listarGastosxPersona(parametros)
+    public Flux<GastoEmpleadoDto> consultarGastoxMes(ParametrosListado parametrosListado) {
+        return  gastoxViajeRepository.listarGastosxPersona(parametrosListado)
                 .onErrorResume(Flux::error);
     }
 }

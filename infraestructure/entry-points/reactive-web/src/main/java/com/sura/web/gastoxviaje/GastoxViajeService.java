@@ -1,7 +1,7 @@
 package com.sura.web.gastoxviaje;
 
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
-import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.ParametrosListado;
 import com.sura.usecase.gastoxviaje.ConsultarGastosxViajeUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,8 +29,8 @@ public class GastoxViajeService {
             }
     )
     @PostMapping("/")
-    public Flux<GastoEmpleadoDto> consultarGastos (@RequestBody  Parametros parametros) {
-        return consultarGastosxViajeUseCase.consultarGastoxMes(parametros);
+    public Flux<GastoEmpleadoDto> consultarGastos (@RequestBody ParametrosListado parametrosListado) {
+        return consultarGastosxViajeUseCase.consultarGastoxMes(parametrosListado);
     }
 
 }

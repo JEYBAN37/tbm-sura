@@ -1,5 +1,5 @@
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
-import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.ParametrosListado;
 import com.sura.usecase.gastoxviaje.ConsultarGastosxViajeUseCase;
 import com.sura.web.gastoxviaje.GastoxViajeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,16 +27,16 @@ class GastoxViajeServiceTest {
     @InjectMocks // Inyecta el mock en la instancia del servicio
     private GastoxViajeService gastoxViajeService;
 
-    private Parametros testParametros;
+    private ParametrosListado testParametrosListado;
     private GastoEmpleadoDto gasto1;
     private GastoEmpleadoDto gasto2;
 
     @BeforeEach
     void setUp() {
-        testParametros = new Parametros();
-        testParametros.setIdEmpleado("12345");
-        testParametros.setPage(0);
-        testParametros.setSize(10);
+        testParametrosListado = new ParametrosListado();
+        testParametrosListado.setIdEmpleado("12345");
+        testParametrosListado.setPage(0);
+        testParametrosListado.setSize(10);
 
         gasto1 = new GastoEmpleadoDto("123", "Empleado Uno", Collections.emptyList());
         gasto2 = new GastoEmpleadoDto("456", "Empleado Dos", Collections.emptyList());
@@ -47,11 +47,11 @@ class GastoxViajeServiceTest {
     void consultarGastos_shouldReturnFluxOfDtos_whenUseCaseEmitsData() {
         // GIVEN: El caso de uso retorna un Flux con dos DTOs de ejemplo
         List<GastoEmpleadoDto> expectedList = Arrays.asList(gasto1, gasto2);
-        when(consultarGastosxViajeUseCase.consultarGastoxMes(testParametros))
+        when(consultarGastosxViajeUseCase.consultarGastoxMes(testParametrosListado))
                 .thenReturn(Flux.fromIterable(expectedList));
 
         // WHEN: Se llama al método consultarGastos del servicio
-        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(testParametros);
+        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(testParametrosListado);
 
         // THEN: Verificar que el Flux emitido contiene los DTOs esperados y se completa
         StepVerifier.create(resultFlux)
@@ -60,18 +60,18 @@ class GastoxViajeServiceTest {
                 .verifyComplete();
 
         // Verificar que el caso de uso fue llamado exactamente una vez con los parámetros correctos
-        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(testParametros);
+        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(testParametrosListado);
     }
 
     @Test
     @DisplayName("Debe retornar un Flux vacío cuando el caso de uso es exitoso pero no emite datos")
     void consultarGastos_shouldReturnEmptyFlux_whenUseCaseEmitsNoData() {
         // GIVEN: El caso de uso retorna un Flux vacío
-        when(consultarGastosxViajeUseCase.consultarGastoxMes(testParametros))
+        when(consultarGastosxViajeUseCase.consultarGastoxMes(testParametrosListado))
                 .thenReturn(Flux.empty());
 
         // WHEN: Se llama al método consultarGastos del servicio
-        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(testParametros);
+        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(testParametrosListado);
 
         // THEN: Verificar que el Flux se completa sin emitir ningún DTO
         StepVerifier.create(resultFlux)
@@ -79,7 +79,7 @@ class GastoxViajeServiceTest {
                 .verify();
 
         // Verificar que el caso de uso fue llamado exactamente una vez con los parámetros correctos
-        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(testParametros);
+        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(testParametrosListado);
     }
 
     @Test
@@ -87,11 +87,11 @@ class GastoxViajeServiceTest {
     void consultarGastos_shouldPropagateError_whenUseCaseEmitsError() {
         // GIVEN: El caso de uso retorna un Flux que emite un error
         RuntimeException expectedError = new RuntimeException("Error simulado en el caso de uso");
-        when(consultarGastosxViajeUseCase.consultarGastoxMes(testParametros))
+        when(consultarGastosxViajeUseCase.consultarGastoxMes(testParametrosListado))
                 .thenReturn(Flux.error(expectedError));
 
         // WHEN: Se llama al método consultarGastos del servicio
-        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(testParametros);
+        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(testParametrosListado);
 
         // THEN: Verificar que el Flux propaga el error esperado
         StepVerifier.create(resultFlux)
@@ -100,24 +100,24 @@ class GastoxViajeServiceTest {
                 .verify();
 
         // Verificar que el caso de uso fue llamado exactamente una vez con los parámetros correctos
-        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(testParametros);
+        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(testParametrosListado);
     }
 
     @Test
     @DisplayName("Debe llamar al caso de uso con diferentes parámetros")
     void consultarGastos_shouldCallUseCaseWithDifferentParameters() {
         // GIVEN: Un nuevo conjunto de parámetros
-        Parametros differentParametros = new Parametros();
-        differentParametros.setIdEmpleado("67890");
-        differentParametros.setPage(1);
-        differentParametros.setSize(5);
+        ParametrosListado differentParametrosListado = new ParametrosListado();
+        differentParametrosListado.setIdEmpleado("67890");
+        differentParametrosListado.setPage(1);
+        differentParametrosListado.setSize(5);
 
         // Configurar el caso de uso para devolver un Flux vacío para simplificar esta prueba de invocación
-        when(consultarGastosxViajeUseCase.consultarGastoxMes(differentParametros))
+        when(consultarGastosxViajeUseCase.consultarGastoxMes(differentParametrosListado))
                 .thenReturn(Flux.empty());
 
         // WHEN: Se llama al método consultarGastos con los nuevos parámetros
-        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(differentParametros);
+        Flux<GastoEmpleadoDto> resultFlux = gastoxViajeService.consultarGastos(differentParametrosListado);
 
         // THEN: Verificar que el Flux se completa (el contenido no es el foco aquí)
         StepVerifier.create(resultFlux)
@@ -125,8 +125,8 @@ class GastoxViajeServiceTest {
                 .verify();
 
         // Verificar que el caso de uso fue llamado exactamente una vez con los *nuevos* parámetros
-        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(differentParametros);
+        verify(consultarGastosxViajeUseCase, times(1)).consultarGastoxMes(differentParametrosListado);
         // Asegurarse de que no fue llamado con los parámetros de setup si no corresponde
-        verify(consultarGastosxViajeUseCase, never()).consultarGastoxMes(testParametros);
+        verify(consultarGastosxViajeUseCase, never()).consultarGastoxMes(testParametrosListado);
     }
 }

@@ -2,8 +2,8 @@ package com.sura.usecase.gastoxviaje;
 
 import com.sura.model.common.ex.BusinessException;
 import com.sura.model.gastoxmes.GastoMes;
-import com.sura.model.gastoxmes.Parametros;
 import com.sura.model.gastoxmes.dto.GastoMesDto;
+import com.sura.model.gastoxviaje.ParametrosReporte;
 import com.sura.model.gastoxviaje.dto.GastoTotalDto;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
 import lombok.AllArgsConstructor;
@@ -16,8 +16,8 @@ import static com.sura.model.empleado.Const.MILLON_COP;
 @AllArgsConstructor
 public class GenerarReporteMensualUseCase {
     private final GastoxViajeRepository gastoxViajeRepository;
-    public Flux<GastoMesDto> generarReporteMensual(Parametros parametros) {
-        return gastoxViajeRepository.TotalGastosxMes(getPeriodo(parametros))
+    public Flux<GastoMesDto> generarReporteMensual(ParametrosReporte parametrosReporte) {
+        return gastoxViajeRepository.TotalGastosxMes(getPeriodo(parametrosReporte))
                 .map(this::calcularTotalMasIva)
                 .flatMap(gastoxViajeRepository::upsertGastoMes, 10);
     }
@@ -37,19 +37,19 @@ public class GenerarReporteMensualUseCase {
                 .build();
     }
 
-    private LocalDate getPeriodo(Parametros parametros) {
-        if (parametros.getAnio() == null || parametros.getMes() == null) {
+    private LocalDate getPeriodo( ParametrosReporte parametrosReporte) {
+        if (parametrosReporte.getAnio() == null || parametrosReporte.getMes() == null) {
             throw BusinessException.Type.ERROR_FALTAN_PARAMETROS.build();
         }
         int anio;
         int mes;
         try {
-            anio = Integer.parseInt(parametros.getAnio());
+            anio = Integer.parseInt(parametrosReporte.getAnio());
         } catch (NumberFormatException e) {
             throw BusinessException.Type.ERROR_ANIO_NUMERICO.build();
         }
 
-        String mesInput = parametros.getMes().toLowerCase();
+        String mesInput = parametrosReporte.getMes().toLowerCase();
 
         if (MESES.containsKey(mesInput)) {
             mes = MESES.get(mesInput);

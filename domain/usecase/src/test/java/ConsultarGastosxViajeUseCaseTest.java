@@ -1,6 +1,6 @@
 
 import com.sura.model.empleado.dto.GastoEmpleadoDto;
-import com.sura.model.gastoxmes.Parametros;
+import com.sura.model.gastoxmes.ParametrosListado;
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
 import com.sura.usecase.gastoxviaje.ConsultarGastosxViajeUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,17 +30,17 @@ class ConsultarGastosxViajeUseCaseTest {
     @InjectMocks
     private ConsultarGastosxViajeUseCase consultarGastosxViajeUseCase;
 
-    private Parametros parametros;
+    private ParametrosListado parametrosListado;
     private GastoEmpleadoDto gasto1;
     private GastoEmpleadoDto gasto2;
 
     @BeforeEach
     void setUp() {
         // Inicializa los objetos comunes para las pruebas
-        parametros = new Parametros();
-        parametros.setPage(0);
-        parametros.setSize(10);
-        parametros.setIdEmpleado("EMP001"); // Nuevo campo idEmpleado
+        parametrosListado = new ParametrosListado();
+        parametrosListado.setPage(0);
+        parametrosListado.setSize(10);
+        parametrosListado.setIdEmpleado("EMP001"); // Nuevo campo idEmpleado
 
         // Asumiendo una estructura simple para GastoMensualDto para los mocks
         // Si GastoMensualDto tiene campos, deberías inicializarlos también.
@@ -56,17 +56,17 @@ class ConsultarGastosxViajeUseCaseTest {
     void consultarGastoxMes_shouldReturnGastosSuccessfully() {
         // ... el resto de la prueba sigue siendo igual ...
         List<GastoEmpleadoDto> gastosEsperados = Arrays.asList(gasto1, gasto2);
-        when(gastoxViajeRepository.listarGastosxPersona(any(Parametros.class)))
+        when(gastoxViajeRepository.listarGastosxPersona(any(ParametrosListado.class)))
                 .thenReturn(Flux.fromIterable(gastosEsperados));
 
-        Flux<GastoEmpleadoDto> resultado = consultarGastosxViajeUseCase.consultarGastoxMes(parametros);
+        Flux<GastoEmpleadoDto> resultado = consultarGastosxViajeUseCase.consultarGastoxMes(parametrosListado);
 
         StepVerifier.create(resultado)
                 .expectNext(gasto1)
                 .expectNext(gasto2)
                 .verifyComplete();
 
-        verify(gastoxViajeRepository, times(1)).listarGastosxPersona(any(Parametros.class));
+        verify(gastoxViajeRepository, times(1)).listarGastosxPersona(any(ParametrosListado.class));
     }
 
     @Test
@@ -74,16 +74,16 @@ class ConsultarGastosxViajeUseCaseTest {
     void consultarGastoxMes_shouldPropagateError() {
         // ... el resto de la prueba sigue siendo igual ...
         RuntimeException expectedException = new RuntimeException("Error simulado del repositorio");
-        when(gastoxViajeRepository.listarGastosxPersona(any(Parametros.class)))
+        when(gastoxViajeRepository.listarGastosxPersona(any(ParametrosListado.class)))
                 .thenReturn(Flux.error(expectedException));
 
-        Flux<GastoEmpleadoDto> resultado = consultarGastosxViajeUseCase.consultarGastoxMes(parametros);
+        Flux<GastoEmpleadoDto> resultado = consultarGastosxViajeUseCase.consultarGastoxMes(parametrosListado);
 
         StepVerifier.create(resultado)
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
                         throwable.getMessage().equals("Error simulado del repositorio"))
                 .verify();
 
-        verify(gastoxViajeRepository, times(1)).listarGastosxPersona(any(Parametros.class));
+        verify(gastoxViajeRepository, times(1)).listarGastosxPersona(any(ParametrosListado.class));
     }
 }
