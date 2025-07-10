@@ -12,18 +12,19 @@ Incluye seguridad JWT, base de datos PostgreSQL y documentación.
 
 ## 🚀 Despliegue local con Docker Compose
 
-1️⃣ Clona el repositorio:
-```bash
+### 1️⃣ Clona el repositorio:
+
 git clone https://github.com/JEYBAN37/tbm-sura
+
 cd tbm
-2️⃣ Compila todos los módulos con Gradle:
+### 2️⃣ Compila todos los módulos con Gradle:
 
 ./gradlew clean build
 
 gradlew.bat clean build
 
 
-3️⃣ Levanta todo con Docker Compose:
+### 3️⃣ Levanta todo con Docker Compose:
 
 docker-compose up --build
 
@@ -34,19 +35,19 @@ Inicia el contenedor app y el contenedor db (PostgreSQL).
 
 Ejecuta automáticamente el script init.sql para crear tablas y esquemas.
 
-⚙️ Variables de entorno
+## ⚙️ Variables de entorno
 El archivo .env define:
 
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=admin
 POSTGRES_DB=dbtbm
 
-📚 Documentación
+## 📚 Documentación
 Cuando la aplicación esté corriendo, abre en tu navegador:
 
 OpenAPI JSON: http://localhost:8080/v3/api-docs
 
-✅ Integración Continua
+## ✅ Integración Continua
 Este proyecto está integrado con SonarCloud para análisis de calidad de código.
 
 Pipeline principal (build.gradle):
@@ -55,8 +56,8 @@ Ejecuta tests unitarios y de cobertura con Jacoco.
 
 Sube reportes a SonarCloud.
 
-📌 Endpoints principales
-1️⃣ Generar Reporte Mensual
+## 📌 Endpoints principales
+### 1️⃣ Generar Reporte Mensual
 Método: POST
 
 Path: v1/generarreporte/
@@ -85,7 +86,7 @@ json
         "fechaCierre": "2025-07-09"
     },
 ]
-2️⃣ Listar Gastos por Viaje
+### 2️⃣ Listar Gastos por Viaje
 Método: GET
 
 Path: /v1/gastosxempleado/
@@ -124,16 +125,16 @@ json
                 ]
             }
         ]
-🧩 Pruebas en Postman
-✅ En la carpeta /docs encontrarás un archivo tbm-collection.postman.json con todos los endpoints listos para probar en Postman.
+## 🧩 Pruebas en Postman
+### ✅ En la carpeta /docs encontrarás un archivo tbm-collection.postman.json con todos los endpoints listos para probar en Postman.
 
-1️⃣ Importa el .json en Postman.
-2️⃣ Actualiza el Bearer Token en la variable de entorno o en el header Authorization.
+### 1️⃣ Importa el .json en Postman.
+### 2️⃣ Actualiza el Bearer Token en la variable de entorno o en el header Authorization.
 
-📌 Panel de documentación
+## 📌 Panel de documentación
 👉 https://jeyban37.atlassian.net/jira/software/projects/BTS/list?atlOrigin=eyJpIjoiYWIzZGFlMDFhZmU4NDM1YzkxN2I0ZWRjYjkyMWE3ODUiLCJwIjoiaiJ9
 
-🗂️ Estructura
+## 🗂️ Estructura
 applications/app-service → Módulo principal Spring Boot
 
 domain-model → Entidades y modelos de dominio
@@ -146,7 +147,7 @@ driven-adapters-jwt → Autenticación JWT
 
 entry-points-reactive-web → Controladores API REST
 
-⚡ Autor
-🚀 SURA TBM - Microservicio 
+## ⚡ Autor
+## 🚀 SURA TBM - Microservicio 
 
 ---
