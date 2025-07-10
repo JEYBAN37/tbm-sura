@@ -1,9 +1,7 @@
 package com.sura.tbm;
 
 import com.sura.jwt.JwtUtil;
-
 import com.sura.model.gastoxviaje.gateway.GastoxViajeRepository;
-
 import com.sura.usecase.gastoxviaje.ConsultarGastosxViajeUseCase;
 import com.sura.usecase.gastoxviaje.GenerarReporteMensualUseCase;
 import org.springframework.beans.factory.annotation.Value;

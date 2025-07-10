@@ -1,6 +1,7 @@
 package com.sura.tbm.defaults;
 
 import com.sura.jwt.JwtWebFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -13,15 +14,11 @@ import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableReactiveMethodSecurity
+@AllArgsConstructor
 public class SecurityConfig {
 
     private final JwtWebFilter jwtWebFilter;
     private final AppSecurityProperties properties;
-
-    public SecurityConfig(JwtWebFilter jwtWebFilter, AppSecurityProperties properties) {
-        this.jwtWebFilter = jwtWebFilter;
-        this.properties = properties;
-    }
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -31,10 +28,15 @@ public class SecurityConfig {
             http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         }
 
+
         http.authorizeExchange(exchanges -> exchanges
+                .pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .pathMatchers(properties.getPublicResources().toArray(new String[0])).permitAll()
                 .anyExchange().authenticated()
         );
+
+        http.httpBasic(ServerHttpSecurity.HttpBasicSpec::disable);
+        http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
 
         if (properties.isAuthEnable()) {
             http.addFilterAt(jwtWebFilter, SecurityWebFiltersOrder.AUTHENTICATION);
