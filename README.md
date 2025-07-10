@@ -20,6 +20,9 @@ cd tbm
 
 ./gradlew clean build
 
+gradlew.bat clean build
+
+
 3️⃣ Levanta todo con Docker Compose:
 
 docker-compose up --build
