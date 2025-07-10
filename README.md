@@ -65,6 +65,11 @@ Ejecuta tests unitarios y de cobertura con Jacoco.
 Sube reportes a SonarCloud.
 
 ## 📌 Endpoints principales
+
+### Recuerda Logearte para obtener Token
+
+Path: v1/auth/login?username=usuario&password=password
+
 ### 1️⃣ Generar Reporte Mensual
 Método: POST
 
