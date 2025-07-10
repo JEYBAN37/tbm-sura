@@ -1,10 +1,11 @@
-# tbm-sura
 # 📦 Proyecto TBM - Microservicio de Reportes
-
-![image](https://github.com/user-attachments/assets/12907f47-691b-4676-997b-a6a1199ce33d)
 
 Este proyecto es un microservicio **Spring Boot WebFlux** modularizado para gestión de gastos por viaje y reportes mensuales.  
 Incluye seguridad JWT, base de datos PostgreSQL y documentación.
+
+![image](https://github.com/user-attachments/assets/12907f47-691b-4676-997b-a6a1199ce33d)
+
+## Flujo de Aplicacion
 
 ![image](https://github.com/user-attachments/assets/9b5fd049-923e-4f53-9673-5c64fb436326)
 
@@ -14,33 +15,40 @@ Incluye seguridad JWT, base de datos PostgreSQL y documentación.
 
 ### 1️⃣ Clona el repositorio:
 
+```bash
 git clone https://github.com/JEYBAN37/tbm-sura
-
 cd tbm
+```
+
 ### 2️⃣ Compila todos los módulos con Gradle:
 
+```bash
 ./gradlew clean build
+```
 
+```bash
 gradlew.bat clean build
-
+```
 
 ### 3️⃣ Levanta todo con Docker Compose:
 
+```bash
 docker-compose up --build
-
+```
 Esto:
+
 Construye tu imagen de la aplicación.
-
 Inicia el contenedor app y el contenedor db (PostgreSQL).
-
 Ejecuta automáticamente el script init.sql para crear tablas y esquemas.
 
 ## ⚙️ Variables de entorno
 El archivo .env define:
 
+```bash
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=admin
 POSTGRES_DB=dbtbm
+```
 
 ## 📚 Documentación
 Cuando la aplicación esté corriendo, abre en tu navegador:
@@ -66,15 +74,18 @@ Descripción: Calcula gastos por empleado en un periodo, genera totales con IVA 
 se debe elegir un año y un mes del cual se quiere generar el reporte [prueba de abril a julio]
 Body JSON ejemplo:
 
+```bash
 json
 {
   "anio": "2025",
   "mes": "06"
 }
+
+```
 Respuesta exitosa:
 
+```bash
 json
-
 [
 {
         "dni": "10000008",
@@ -86,23 +97,32 @@ json
         "fechaCierre": "2025-07-09"
     },
 ]
+```
 ### 2️⃣ Listar Gastos por Viaje
+
 Método: GET
 
 Path: /v1/gastosxempleado/
 
 Descripción: Devuelve un listado de todos los gastos registrados por empleado.
 
+```bash
 {
   "page": "1",
   "size": "06"
 }
+
+```
 o especificar al empleado
+
+```bash
 {
   "idEmpleado": "1",
 }
+```
 Respuesta ejemplo:
 
+```bash
 json
 
 "dniEmpleado": "10000013",
@@ -123,8 +143,25 @@ json
                         "ciudad": "Barranquilla"
                     }
                 ]
+            },
+            {
+                "anio": 2025,
+                "mes": 5,
+                "totalBase": 1650138.3,
+                "iva": 313526.28,
+                "totalConIva": 1963664.58,
+                "responsable": "Empleado",
+                "gastos": [
+                    {
+                        "fecha": "2025-04-08T00:00:00",
+                        "valor": 1650138.3,
+                        "motivo": "Almuerzo con proveedor",
+                        "ciudad": "Barranquilla"
+                    }
+                ]
             }
         ]
+```
 ## 🧩 Pruebas en Postman
 ### ✅ En la carpeta /docs encontrarás un archivo tbm-collection.postman.json con todos los endpoints listos para probar en Postman.
 
@@ -135,6 +172,8 @@ json
 👉 https://jeyban37.atlassian.net/jira/software/projects/BTS/list?atlOrigin=eyJpIjoiYWIzZGFlMDFhZmU4NDM1YzkxN2I0ZWRjYjkyMWE3ODUiLCJwIjoiaiJ9
 
 ## 🗂️ Estructura
+
+```bash
 applications/app-service → Módulo principal Spring Boot
 
 domain-model → Entidades y modelos de dominio
@@ -146,7 +185,7 @@ driven-adapters-r2dbc-repository → Repositorios R2DBC
 driven-adapters-jwt → Autenticación JWT
 
 entry-points-reactive-web → Controladores API REST
-
+```
 ## ⚡ Autor
 ## 🚀 SURA TBM - Microservicio 
 
