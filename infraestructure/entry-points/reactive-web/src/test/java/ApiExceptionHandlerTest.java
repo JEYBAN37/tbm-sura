@@ -64,7 +64,7 @@ class ApiExceptionHandlerTest {
         assertNotNull(entity);
         assertEquals(HttpStatus.BAD_REQUEST, entity.getStatusCode());
         assertNotNull(entity.getBody());
-        assertEquals("No se ha podido realizar la operación solicitada", entity.getBody().getErrors().get(0).getMessage());
+        assertEquals("No se ha podido realizar la operaci\u00F3n solicitada", entity.getBody().getErrors().get(0).getMessage());
     }
 
     @Test
